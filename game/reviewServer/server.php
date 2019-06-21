@@ -950,7 +950,7 @@ function rs_showData( $checkPassword = true ) {
     for( $a=0; $a < $maxNumAnswers; $a++ ) {
         $name = $answerNames[$a];
         
-        echo "<INPUT TYPE=text MAXLENGTH=80 SIZE=40 NAME=$name ".
+        echo "<INPUT TYPE=text MAXLENGTH=43 SIZE=43 NAME=$name ".
         "value='' ><br>";
         }
     ?>
@@ -1470,11 +1470,21 @@ function rs_listPolls() {
         $runTime = rs_secondsToTimeSummary( strtotime( $end_date ) -
                                             strtotime( $start_date ) );
 
+        $endHint = "";
+
+        $endAgoSec = strtotime( "now" ) - strtotime( $end_date );
+
+        if( $endAgoSec < 0 ) {
+            $endHint =
+                " (ends in " . rs_secondsToAgeSummary( -$endAgoSec ) . ")";
+            }
+        
 
         echo "<table border=0 cellspacing=0 cellpadding=0 width=100%>";
         
         echo "<tr><td>$startString</td><td align=right>$startAgo</td></tr>";
-        echo "<tr><td colspan=2 align=left>Run time: $runTime</td></tr>";
+        echo "<tr><td colspan=2 align=left>Run time: $runTime".
+            "$endHint</td></tr>";
         echo "</table>";
 
         echo "<hr><br>";
@@ -1518,7 +1528,7 @@ function rs_listPolls() {
             
             echo "<tr><td $bgColor>$answer</td>".
                 "<td $bgColor align=right>$num</td>".
-                "<td $bgColor align=right>$percent %</td></tr>";
+                "<td $bgColor align=right nowrap>$percent %</td></tr>";
 
             $temp = $bgColor;
             $bgColor = $bgColorAlt;
